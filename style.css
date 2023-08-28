@@ -1,0 +1,307 @@
+/* Base styles */
+@font-face {
+	font-family: caffeine;
+	src: url(caffeine.woff2);
+}
+@font-face {
+	font-family: goudy;
+	src: url(goudy.ttf);
+}
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	user-select: none;
+	cursor: none;
+}
+html {
+	font-size: 12px;
+}
+body {
+	font-family: goudy, serif;
+	background-color: black;
+	color: white;
+}
+
+.walk-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	pointer-events: none;
+	transition: opacity .5s;
+	animation: walk-container 1s infinite alternate ease-in-out;
+}
+.walk-images {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-position: 50% 50%;
+	background-size: cover;
+	transition: background-image 200ms, opacity 200ms;
+}
+@keyframes walk-container {
+	from {
+		filter: brightness(60%);
+	}
+	to {
+		filter: brightness(80%);
+	}
+}
+.walk-preload {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* Overlays */
+.grain {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 120vw;
+	height: 120vh;
+	animation-name: grain;
+	animation-duration: .5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: steps(3);
+	mix-blend-mode: luminosity;
+	opacity: 0.1;
+	pointer-events: none;
+	z-index: 999;
+}
+@keyframes grain {
+	0% {
+		left: -20vw;
+		top: -20vh;
+	}
+	33% {
+		left: 0vw;
+		top: -20vh;
+	}
+	66% {
+		left: 0vw;
+		top: 0vh;
+	}
+	100% {
+		left: -20vw;
+		top: 0vh;
+	}
+}
+.vignette {
+	z-index: 99;
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%), linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%), linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%), linear-gradient(270deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%);
+	/* animation: vignette 4s infinite alternate ease-in-out; */
+	transition: filter .5s;
+}
+@keyframes vignette {
+	0% {
+		opacity: .5;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* Mouse cursor */
+.walk-cursor {
+	font-family: caffeine;
+	position: fixed;
+	font-size: 32px;
+	z-index: 99999;
+	pointer-events: none;
+	transition: filter .2s;
+	user-select: none;
+	left: 50%;
+	top: 50%;
+}
+.walk-cursor span {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.walk-cursor-default {
+	transform: translate(-10%, -10%) !important;
+}
+.walk-cursor-left, .walk-cursor-right {
+	font-size: 150px;
+}
+.walk-cursor[data-step="0"] .walk-cursor-default {
+	display: block;
+}
+.walk-cursor[data-step="1"] .walk-cursor-left {
+	display: block;
+}
+.walk-cursor[data-step="2"] .walk-cursor-right {
+	display: block;
+}
+
+/* Text */
+.walk-text {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	z-index: 99;
+	top: 0;
+	left: 0;
+	font-size: 24px;
+	line-height: 1.5em;
+	letter-spacing: .05em;
+	text-shadow: 0px 5px 10px black;
+}
+.walk-text p {
+	position: absolute;
+	transition: opacity 1s;
+	opacity: 0;
+}
+.walk-text-line {
+	display: block;
+	opacity: 0;
+	transition: opacity 1s;
+}
+.walk-text-center {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+.walk-text-top {
+	top: 8vh;
+	left: 50%;
+	transform: translate(-50%, 0);
+	pointer-events: none;
+	text-align: center;
+}
+.walk-text-bottom {
+	bottom: 8vh;
+	left: 50%;
+	transform: translate(-50%, 0);
+	pointer-events: none;
+	text-align: center;
+}
+.walk-text-left {
+	top: 50%;
+	right: 62.5%;
+	min-width: 15vw;
+	transform: translate(0, -50%);
+	pointer-events: none;
+	text-align: right;
+}
+.walk-text-right {
+	top: 50%;
+	left: 62.5%;
+	min-width: 15vw;
+	transform: translate(0, -50%);
+	pointer-events: none;
+	text-align: left;
+}
+.walk-text-break {
+	height: .6em;
+	display: block;
+}
+.walk-text .walk-text-byhand {
+	font-family: caffeine;
+	letter-spacing: 0;
+	font-size: 1.2em;
+}
+
+/* Steps */
+.walk-steps {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 9;
+	pointer-events: none;
+	transform: rotate(90deg);
+}
+.walk-steps-child {
+	transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1), filter .4s, opacity .2s;
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+.walk-steps-child-img {
+	height: var(--imgsize);
+	box-shadow: 0 0 100px rgba(0,0,0,.5);
+}
+
+/* Dialogues */
+.walk-intro-options {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-top: 20px;
+	gap: 10px;
+}
+.walk-button {
+	padding: 40px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity .2s;
+}
+.walk-button-background {
+	position: absolute;
+	border-radius: 25%;
+	width: 100%;
+	height: 100%;
+	filter: blur(10px);
+	background: white;
+	opacity: 0;
+	transition: opacity .5s;
+	z-index: -1;
+}
+.walk-button:hover .walk-button-background {
+	opacity: 1;
+}
+.walk-button:active .walk-button-background {
+	opacity: .5;
+}
+.walk-button:hover .walk-button-text {
+	color: black;
+}
+.walk-button-text {
+	color: white;
+	transition: color .5s;
+}
+
+/* Controls */
+.walk-controls {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	z-index: 100;
+	pointer-events: none;
+}
+.walk-controls-button {
+	background-color: white;
+	opacity: 0;
+	transition: opacity .2s;
+	filter: blur(100px);
+	border-radius: 50%;
+}
+.walk-controls-button:hover {
+	opacity: .5;
+}
+.walk-controls-button:active {
+	opacity: .2;
+}
